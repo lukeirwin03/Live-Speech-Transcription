@@ -58,24 +58,49 @@ function App() {
     }
   };
 
+  const handleTranscriptChange = (event) => {
+    setTranscript(event.target.value);
+  };
+
   const handleClearTranscript = () => {
     setTranscript("");
     setInterimTranscript("");
   };
 
+  const copyText = () => {
+    navigator.clipboard.writeText(transcript);
+  };
+
+  const simulateSpeech = () => {
+    fetch('/dummy.txt') // Fetches from public
+      .then((response) => response.text()) // Converts to text
+      .then((text) => {
+        setTranscript((prev) => prev + text); // Appends text content
+      })
+      .catch((error) => console.error("Error loading text file:", error));
+  };
+  
+
   return (
     <div className="App">
-      <h1>Speech Transcription App</h1>
-      <button onClick={toggleListening}>
-        {isListening ? "Stop Listening" : "Start Listening"}
-      </button>
-      <button onClick={handleClearTranscript}>Clear Transcript</button>
+      <h1 className="web-header">transcribe.io</h1>
       <div className="transcript">
         <h2>Transcript:</h2>
-        <p>
-          {transcript}
-          <span className="interim">{interimTranscript}</span>
-        </p>
+        <textarea
+          value={transcript + (isListening ? interimTranscript : '')}
+          onChange={handleTranscriptChange}
+          disabled={isListening}
+          rows={10}
+          cols={50}
+        />
+      </div>
+      <div className="button-holder">
+        <button onClick={toggleListening}>
+          {isListening ? "Stop Listening" : "Start Listening"}
+        </button>
+        <button onClick={copyText}>Copy</button>
+        <button onClick={handleClearTranscript}>Clear Transcript</button>
+        <button onClick={simulateSpeech}>Simulate Speech</button>
       </div>
     </div>
   );
