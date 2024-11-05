@@ -14,20 +14,20 @@ function App() {
       recognition.interimResults = true;
 
       recognition.onresult = (event) => {
-        let interimTranscript = "";
-        let finalTranscript = "";
+        let interim = "";
+        let final = "";
 
         for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
+          const result = event.results[i][0].transcript;
           if (event.results[i].isFinal) {
-            finalTranscript += transcript + " ";
+            final += result + " ";
           } else {
-            interimTranscript += transcript;
+            interim += result;
           }
         }
 
-        setTranscript((prev) => prev + finalTranscript);
-        setInterimTranscript(interimTranscript);
+        setTranscript((prev) => prev + final);
+        setInterimTranscript(interim);
       };
 
       recognition.onend = () => {
@@ -41,12 +41,14 @@ function App() {
       console.log("Web Speech API is not supported in this browser.");
     }
 
+    // Cleanup on unmount
     return () => {
       if (recognitionRef.current) {
         recognitionRef.current.stop();
+        recognitionRef.current = null;
       }
     };
-  }, [isListening]);
+  }, []);
 
   const toggleListening = () => {
     if (isListening) {
@@ -72,22 +74,21 @@ function App() {
   };
 
   const simulateSpeech = () => {
-    fetch('/dummy.txt') // Fetches from public
-      .then((response) => response.text()) // Converts to text
+    fetch('/assets/dummy.txt')
+      .then((response) => response.text())
       .then((text) => {
-        setTranscript((prev) => prev + text); // Appends text content
+        setTranscript((prev) => prev + text);
       })
       .catch((error) => console.error("Error loading text file:", error));
   };
   
-
   return (
     <div className="App">
       <h1 className="web-header">transcribe.io</h1>
       <div className="transcript">
         <h2>Transcript:</h2>
         <textarea
-          value={transcript + (isListening ? interimTranscript : '')}
+          value={transcript + interimTranscript}
           onChange={handleTranscriptChange}
           disabled={isListening}
           rows={10}
