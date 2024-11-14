@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import "./App.css";
+
+const apiKey = process.env.REACT_APP_API_KEY;
+const TRANSLATE_URL = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
 function App() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const recognitionRef = useRef(null);
   const [interimTranscript, setInterimTranscript] = useState("");
+  const [sourceLanguage, setSourceLanguage] = useState("en"); // Default English
+  const [targetLanguage, setTargetLanguage] = useState("es"); // Default Spanish
 
   useEffect(() => {
     if ("webkitSpeechRecognition" in window) {
@@ -74,14 +80,35 @@ function App() {
   };
 
   const simulateSpeech = () => {
-    fetch('/assets/dummy.txt')
+    fetch("/assets/dummy.txt")
       .then((response) => response.text())
       .then((text) => {
         setTranscript((prev) => prev + text);
       })
       .catch((error) => console.error("Error loading text file:", error));
   };
-  
+
+  const translateText = async () => {
+    try {
+      const response = await axios.post(TRANSLATE_URL, {
+        q: transcript,
+        source: sourceLanguage,
+        target: targetLanguage,
+      });
+      setTranscript(response.data.data.translations[0].translatedText);
+    } catch (error) {
+      console.error("Error translating text:", error);
+    }
+  };
+
+  const handleSourceLanguageChange = (event) => {
+    setSourceLanguage(event.target.value);
+  };
+
+  const handleTargetLanguageChange = (event) => {
+    setTargetLanguage(event.target.value);
+  };
+
   return (
     <div className="App">
       <h1 className="web-header">transcribe.io</h1>
@@ -102,6 +129,51 @@ function App() {
         <button onClick={copyText}>Copy</button>
         <button onClick={handleClearTranscript}>Clear Transcript</button>
         <button onClick={simulateSpeech}>Simulate Speech</button>
+        <button onClick={translateText}>Translate</button>
+      </div>
+      <div className="language-select">
+        <label>
+          Source Language:
+          <select onChange={handleSourceLanguageChange} value={sourceLanguage}>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="zh-CN">Chinese (Simplified)</option>
+          <option value="ja">Japanese</option>
+          <option value="ko">Korean</option>
+          <option value="it">Italian</option>
+          <option value="pt">Portuguese</option>
+          <option value="ru">Russian</option>
+          <option value="ar">Arabic</option>
+          <option value="hi">Hindi</option>
+          <option value="bn">Bengali</option>
+          <option value="nl">Dutch</option>
+          <option value="el">Greek</option>
+          <option value="tr">Turkish</option>
+          </select>
+        </label>
+        <label>
+          Target Language:
+          <select onChange={handleTargetLanguageChange} value={targetLanguage}>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="zh-CN">Chinese (Simplified)</option>
+          <option value="ja">Japanese</option>
+          <option value="ko">Korean</option>
+          <option value="it">Italian</option>
+          <option value="pt">Portuguese</option>
+          <option value="ru">Russian</option>
+          <option value="ar">Arabic</option>
+          <option value="hi">Hindi</option>
+          <option value="bn">Bengali</option>
+          <option value="nl">Dutch</option>
+          <option value="el">Greek</option>
+          <option value="tr">Turkish</option>
+          </select>
+        </label>
       </div>
     </div>
   );

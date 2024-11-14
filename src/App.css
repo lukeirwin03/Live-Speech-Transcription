@@ -79,3 +79,8 @@ button:active {
   color: #b0b0b0;
   font-style: italic;
 }
+
+select{
+  width: 98px;
+  margin-right: 30px;
+}
