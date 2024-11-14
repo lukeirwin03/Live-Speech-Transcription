@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API_KEY = "AIzaSyBD-sD49Yp4BWfNJ9OntLpJA4M0PJ5hcF8";
-const TRANSLATE_URL = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
+const apiKey = process.env.REACT_APP_API_KEY;
+const TRANSLATE_URL = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
 function App() {
   const [isListening, setIsListening] = useState(false);
