@@ -30,6 +30,7 @@ This application allows users to:
 
 - A modern web browser that supports the Web Speech API (Chrome recommended)
 - Node.js and npm installed on your system
+- Google Translate API Key
 
 ## Installation
 
@@ -39,19 +40,25 @@ This application allows users to:
 git clone [your-repository-url]
 ```
 
-2. Navigate to the project directory:
+2. Add .env file with Google Translate API Key
+
+```
+REACT_APP_API_KEY=INSERT API KEY HERE
+```
+
+3. Navigate to the project directory:
 
 ```bash
 cd [project-folder-name]
 ```
 
-3. Install dependencies:
+4. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. Start the development server:
+5. Start the development server:
 
 ```bash
 npm start
