@@ -151,6 +151,12 @@ function App() {
           <option value="nl">Dutch</option>
           <option value="el">Greek</option>
           <option value="tr">Turkish</option>
+          <option value="vi">Vietnamese</option>
+          <option value="la">Latin</option>
+          <option value="hu">Hungarian</option>
+          <option value="pl">Polish</option>
+          <option value="et">Estonian</option>
+          <option value="id">Indonesian</option>
           </select>
         </label>
         <label>
@@ -172,6 +178,12 @@ function App() {
           <option value="nl">Dutch</option>
           <option value="el">Greek</option>
           <option value="tr">Turkish</option>
+          <option value="vi">Vietnamese</option>
+          <option value="la">Latin</option>
+          <option value="hu">Hungarian</option>
+          <option value="pl">Polish</option>
+          <option value="et">Estonian</option>
+          <option value="id">Indonesian</option>
           </select>
         </label>
       </div>
