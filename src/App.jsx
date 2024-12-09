@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./App.css";
 
-const apiKey = process.env.REACT_APP_API_KEY;
+// const apiKey = process.env.REACT_APP_API_KEY;
+const apiKey = "AIzaSyAUpzlDmCr-EwLUwTVFq4vVypLgsFQMa4M"
 const TRANSLATE_URL = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
 function App() {
