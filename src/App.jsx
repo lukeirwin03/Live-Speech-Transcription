@@ -129,7 +129,6 @@ function App() {
         </button>
         <button onClick={copyText}>Copy</button>
         <button onClick={handleClearTranscript}>Clear Transcript</button>
-        <button onClick={simulateSpeech}>Simulate Speech</button>
         <button onClick={translateText}>Translate</button>
       </div>
       <div className="language-select">
